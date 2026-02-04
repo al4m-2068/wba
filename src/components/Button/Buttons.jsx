@@ -1,8 +1,8 @@
 import "../../index.css";
 
-export function NormalButton({tujuan, teks}){
+export function NormalButton({tujuan, teks, click}){
     return(
-        <a className="rounded-full px-5 py-4 text-trim border hover:bg-black hover:text-white transition-colors duration-200" href={tujuan}>{teks}</a>
+        <a className="rounded-full px-5 py-4 text-trim border hover:bg-black hover:text-white transition-colors duration-200" href={tujuan} onClick={click ? click : null}>{teks}</a>
     )
 }
 export function DisabledButton({teks}){
