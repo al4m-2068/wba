@@ -9,7 +9,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         index: "index.html",
-        gift: "order-gift.html"
+        gift: "order-gift.html",
+        'student-gift': "student-gift.html"
       }
     }
   }

@@ -1,6 +1,7 @@
 import { useImmer } from "use-immer"
-import "../../../index.css"
 import { NormalButton } from "../../Button/Buttons"
+import "../../../index.css"
+import { useState } from "react"
 
 export function OrderGift(){
     const [person, setPerson] = useImmer({
@@ -10,7 +11,8 @@ export function OrderGift(){
     const [list, setList] = useImmer([])
 
     function handleChangeName(e){
-        setPerson((person) => {person.name = e.target.value})
+        setPerson({...person, name: e.target.value})
+        setPerson((person /*any name*/) => {person.name = e.target.value})
     }
     function handleChangeType(e){
         setPerson((person) => {person.type = e.target.value})
@@ -23,13 +25,13 @@ export function OrderGift(){
 
     return(
         <section className="h-screen flex">
-            <div className="w-full p-10">
-                <form className="flex flex-col">
-                    <h1>Gift a Bottle</h1>
-                    <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, ipsa?</h2>
-                    <span className="flex">
-                        <input type="text" value={person.name} onChange={handleChangeName} className="w-full border"/>
-                        <select value={person.type} onChange={handleChangeType}>
+            <div className="w-full p-10 h-full flex flex-col justify-end bg-[url('/images/abstract.png')]">
+                <form className="w-full flex flex-col p-7 bg-white rounded-[30px] gap-3">
+                    <h1 className="text-trim text-3xl font-bold">Gift a Bottle</h1>
+                    <h2 className="mb-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, ipsa?</h2>
+                    <span className="flex gap-5 ">
+                        <input type="text" placeholder="Friend's Name" value={person.name} onChange={handleChangeName} className="px-5 rounded-full w-full border outline-none border-black/50 focus:border-black"/>
+                        <select className="border rounded-full px-5 border-black/50" value={person.type} onChange={handleChangeType}>
                             <option>Xander</option>
                             <option>Youkoso</option>
                             <option>Gouache</option>
@@ -43,10 +45,10 @@ export function OrderGift(){
                     </span>
                 </form>
             </div>
-            <div className="w-full">
-                <table>
+            <div className="w-full p-10">
+                <table className="w-full text-left">
                     <tbody>
-                        <tr>
+                        <tr className="border-b">
                             <th>No.</th>
                             <th>Name</th>
                             <th>Type</th>

@@ -1,12 +1,2 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200..900&display=swap');
 @import "tailwindcss";
-
-@utility text-trim{
-    text-box: trim-both cap alphabetic;
-}
-@theme{
-    --font-inter-tight: "Inter Tight";
-}
-*{
-    @apply font-inter-tight
-}

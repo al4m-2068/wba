@@ -1,4 +1,14 @@
 @import "tailwindcss";
+@utility text-trim{
+    text-box: trim-both cap alphabetic;
+}
+@theme{
+    --font-inter-tight: "Inter Tight";
+}
+
+*{
+    @apply font-inter-tight
+}
 
 html{
     scroll-behavior: smooth;
