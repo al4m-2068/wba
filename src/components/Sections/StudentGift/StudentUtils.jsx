@@ -1,21 +1,37 @@
-import { useImmer } from "use-immer";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { StudentContext, StudentDispatch } from "./StudentContext";
 
-export function Student({studentData, onHapus, onGanti}){
+export function Student({studentData}){
+    const dispatch = useContext(StudentDispatch)
     const [ngedit, setNgedit] = useState(false)
     let data;
 
     function hChangeNama(e){
-        const newData = {...studentData, nama: e.target.value}
-        onGanti(newData)
+        dispatch({
+            ...studentData,
+            type: 'Ganti',
+            nama: e.target.value
+        })
     }
     function hChangeUmur(e){
-        const newData = {...studentData, umur: e.target.value}
-        onGanti(newData)
+        dispatch({
+            ...studentData,
+            type: 'Ganti',
+            umur: e.target.value
+        })
     }
     function hChangeKelas(e){
-        const newData = {...studentData, kelas: e.target.value}
-        onGanti(newData)
+        dispatch({
+            ...studentData,
+            type: 'Ganti',
+            kelas: e.target.value
+        })
+    }
+    function hDelete(e){
+        dispatch({
+            type: 'Hapus',
+            id: e.id
+        })
     }
 
 
@@ -42,13 +58,14 @@ export function Student({studentData, onHapus, onGanti}){
         {data}
         <td>
             {ngedit ? <button onClick={() => setNgedit(false)}>Save</button> : <button onClick={() => setNgedit(true)}>Edit</button>}
-            <button onClick={() => onHapus(studentData)}>Delete</button>
+            <button onClick={hDelete}>Delete</button>
         </td>
         </>
     )
 }
 
-export default function StudentList({studentData, onHapus, onGanti}){
+export default function StudentList(){
+    const students = useContext(StudentContext)
     return(
         <table>
             <tbody>
@@ -59,9 +76,9 @@ export default function StudentList({studentData, onHapus, onGanti}){
                     <th>Class</th>
                     <th>Actions</th>
                 </tr>
-                {studentData.map((student) => (
+                {students.map((student) => (
                     <tr key={student.id}>
-                        <Student studentData={student} onGanti={onGanti} onHapus={onHapus}/>
+                        <Student studentData={student}/>
                     </tr>
                 ))}
             </tbody>

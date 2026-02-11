@@ -1,25 +1,33 @@
+import { useContext } from "react"
 import { useImmer } from "use-immer"
+import { StudentDispatch } from "./StudentContext"
 
-export default function StudentForm({submitItem}){
-    const [siswa, setSiswa] = useImmer({
+export default function StudentForm(){
+    const dispatch = useContext(StudentDispatch)
+    const [student, setStudent] = useImmer({
         nama: '',
         umur: '',
         kelas: ''
     })
 
     function hNama(e){
-        setSiswa((draft) => {draft.nama = e.target.value})
+        setStudent((draft) => {draft.nama = e.target.value})
     }
     function hUmur(e){
-        setSiswa((draft) => {draft.umur = e.target.value})
+        setStudent((draft) => {draft.umur = e.target.value})
     }
     function hKelas(e){
-        setSiswa((draft) => {draft.kelas = e.target.value})
+        setStudent((draft) => {draft.kelas = e.target.value})
     }
     function hAdd(e){
         e.preventDefault();
-        submitItem(siswa)
-        setSiswa({
+        dispatch({
+            type: 'Tambah',
+            nama: student.nama,
+            umur: student.umur,
+            kelas: student.kelas
+        })
+        setStudent({
             nama: '',
             umur: '',
             kelas: ''
@@ -29,11 +37,11 @@ export default function StudentForm({submitItem}){
     return(
         <form>
             <label>Nama</label>
-            <input type="text" onChange={hNama} value={siswa.nama} />
+            <input type="text" onChange={hNama} value={student.nama} />
             <label>Umur</label>
-            <input type="number" onChange={hUmur} value={siswa.umur} />
+            <input type="number" onChange={hUmur} value={student.umur} />
             <label>Kelas</label>
-            <input type="text" onChange={hKelas} value={siswa.kelas} />
+            <input type="text" onChange={hKelas} value={student.kelas} />
             <button onClick={hAdd}>Add Student</button>
         </form>
     )

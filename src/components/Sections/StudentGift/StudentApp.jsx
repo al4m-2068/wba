@@ -1,22 +1,23 @@
 import { useImmerReducer } from "use-immer";
 import StudentForm from "./StudentForm";
 import StudentList from "./StudentUtils";
+import { StudentContext, StudentDispatch } from "./StudentContext";
 
 let id = 0;
 function studentReducer(studentData, action){
-    if (action.event === 'Tambah'){
+    if (action.type === 'Tambah'){
         studentData.push({
             id: id++,
             nama: action.nama,
             umur: action.umur,
             kelas: action.kelas
         })
-    } else if (action.event === 'Ganti'){
+    } else if (action.type === 'Ganti'){
         const index = studentData.findIndex(data => data.id === action.id)
         studentData[index].nama = action.nama
         studentData[index].umur = action.umur
         studentData[index].kelas = action.kelas
-    } else if (action.event === 'Hapus'){
+    } else if (action.type === 'Hapus'){
         const index = studentData.findIndex(data => data.id === action.id)
         studentData.splice(index, 1)
     }
@@ -27,37 +28,16 @@ const initialStudent = [
 ]
 
 export default function StudentGift(){
-    const [studentData, dispatch] = useImmerReducer(studentReducer, initialStudent)
-    
-    function hListAdd(studentData){
-        dispatch({
-            event: 'Tambah',
-            nama: studentData.nama,
-            umur: studentData.umur,
-            kelas: studentData.kelas
-        })
-    }
-    function hListChange(studentData){
-        dispatch({
-            event: 'Ganti',
-            id: studentData.id,
-            nama: studentData.nama,
-            umur: studentData.umur,
-            kelas: studentData.kelas
-        })
-    }
-    function hListDelete(studentData){
-        dispatch({
-            event: 'Hapus',
-            id: studentData.id
-        })
-    }
-
+    const [student, dispatch] = useImmerReducer(studentReducer, initialStudent)
     return(
         <div>
-            <h1>Gift Your Student</h1>
-            <StudentForm submitItem={hListAdd}/>
-            <StudentList studentData={studentData} onGanti={hListChange} onHapus={hListDelete} />
+            <StudentContext.Provider value={student}>
+                <StudentDispatch.Provider value={dispatch}>
+                    <h1>Gift Your Student</h1>
+                    <StudentForm />
+                    <StudentList />
+                </StudentDispatch.Provider>
+            </StudentContext.Provider>
         </div>
     )
 } 
